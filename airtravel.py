@@ -95,12 +95,24 @@ class Flight:
                     yield (passenger, "{}{}".format(row,letter))
 
 
-class Airbus319:
+class SuperC:
+    def __init__(self):
+        print('Super Class')
+        self._registration
+
+class Aircraft:
+
+    def totalSeats(self):
+        rows,seats=self.seatingplan()
+        return len(rows)*len(seats)
+
     def __init__(self,registration):
         self._registration=registration
 
     def registration(self):
         return self._registration
+
+class Airbus319(Aircraft,SuperC):
 
     def model(self):
         return "Air Bus A319"
@@ -108,13 +120,7 @@ class Airbus319:
     def seatingplan(self):
         return range(1,23), "ABCDEF"
 
-class Boeing777:
-
-    def __init__(self,registration):
-        self._registration=registration
-
-    def registration(self):
-        return self._registration
+class Boeing777(Aircraft,SuperC):
 
     def model(self):
         return "Boeing 777"
@@ -122,49 +128,26 @@ class Boeing777:
     def seatingplan(self):
         return range(1,56),"ABCDEFGHJK"
 
-class AirCraft:
 
-    def __init__(self,registration,model,rows,seats_per_rows):
-        self._registration=registration
-        self._model=model
-        self._rows=rows
-        self._seats_per_rows=seats_per_rows
-
-    def registration(self):
-        return self._registration
-
-    def model(self):
-        return self._model
-
-    def seatingplan(self):
-        return (range(1,self._rows),"ABCDEFGJK"[:self._seats_per_rows])
 
 def make_flights():
-    f=Flight("BA758", AirCraft("G-TURS","Airbus A319",rows=22,seats_per_rows=6))
-    f.allocate_seat('12A','Aryan Bhardwaj')
-    f.allocate_seat('12B','Gargie Bhardwaj')
-    f.allocate_seat('12C','Deep Mala')
-    f.allocate_seat('1A','Ravi Datt Sharma')
-    f.allocate_seat('2F','J N Sharma')
-    f.allocate_seat('2A','Rekha Kumari')
+    ab = Flight("BA758", Airbus319("G-EUPT"))
+    ab.allocate_seat('12A', 'Aryan Bhardwaj')
+    ab.allocate_seat('12B', 'Gargie Bhardwaj')
+    ab.allocate_seat('12C', 'Deep Mala')
+    ab.allocate_seat('1A', 'Ravi Datt Sharma')
+    ab.allocate_seat('2F', 'J N Sharma')
+    ab.allocate_seat('2A', 'Rekha Kumari')
 
-    f1 = Flight("BA758", Airbus319("G-EUPT"))
-    f1.allocate_seat('12A', 'Aryan Bhardwaj')
-    f1.allocate_seat('12B', 'Gargie Bhardwaj')
-    f1.allocate_seat('12C', 'Deep Mala')
-    f1.allocate_seat('1A', 'Ravi Datt Sharma')
-    f1.allocate_seat('2F', 'J N Sharma')
-    f1.allocate_seat('2A', 'Rekha Kumari')
+    bo = Flight("AF72", Boeing777("F-GSPS"))
+    bo.allocate_seat('12A', 'Aryan Bhardwaj')
+    bo.allocate_seat('12B', 'Gargie Bhardwaj')
+    bo.allocate_seat('12C', 'Deep Mala')
+    bo.allocate_seat('1A', 'Ravi Datt Sharma')
+    bo.allocate_seat('2F', 'J N Sharma')
+    bo.allocate_seat('2A', 'Rekha Kumari')
 
-    g = Flight("AF72", Boeing777("F-GSPS"))
-    g.allocate_seat('12A', 'Aryan Bhardwaj')
-    g.allocate_seat('12B', 'Gargie Bhardwaj')
-    g.allocate_seat('12C', 'Deep Mala')
-    g.allocate_seat('1A', 'Ravi Datt Sharma')
-    g.allocate_seat('2F', 'J N Sharma')
-    g.allocate_seat('2A', 'Rekha Kumari')
-
-    return f,f1,g
+    return ab,bo
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
     output="|Name:{0} " \
